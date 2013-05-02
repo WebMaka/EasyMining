@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <meta name="content-type" http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="GENERATOR" content="EFW" />
+  <meta name="keywords" content="Easy Mining Getting Started" />
+  <title>Easy Mining :: Getting Started</title>
+  <style type="text/css">
+body
+{
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  background-color: #F8FFF8;
+}
+p
+{
+  margin-left: 12px;
+}
+
+
+.alertbox_green
+{
+ border: thin solid rgb(0, 128, 0); 
+ padding: 8px;
+ background-color: rgb(204, 255, 204); 
+ text-align: center; 
+ vertical-align: middle;
+ width: 400px;
+ margin-right: auto;
+ margin-left: auto;
+}
+.alertbox_yellow
+{
+ border: thin solid rgb(128, 128, 0);
+ padding: 8px;
+ background-color: rgb(255, 255, 204);
+ text-align: center;
+ vertical-align: middle;
+ width: 400px;
+ margin-right: auto;
+ margin-left: auto;
+}
+.alertbox_red
+{
+ border: thin solid rgb(128, 0, 0);
+ padding: 8px;
+ background-color: rgb(255, 204, 204);
+ text-align: center;
+ vertical-align: middle;
+ width: 400px;
+ margin-right: auto;
+ margin-left: auto;
+}
+
+
+  </style>
+
+  <script type="text/javascript">
+/*<![CDATA[*/
+
+  function externalLinks() {
+    if (!document.getElementsByTagName) return;
+    var anchors = document.getElementsByTagName("a");
+    for (var i=0; i<anchors.length; i++) {
+      var anchor = anchors[i];
+      if (anchor.getAttribute("href") && anchor.getAttribute("rel") == "external")
+        anchor.target = "_blank";
+    }
+  }
+  window.onload = externalLinks;
+
+/*]]>*/
+  </script>
+</head>
+<body>
+  <p>
+    <img src="images/easy_mining_logo.png" style="height: 96px; width: 96px; border: none; float: left;" />
+    <span style="font-size: 18px; font-weight: bold;">Easy Mining</span><br />
+    <span style="font-style: italic;">Making Mining Super Simple</span><br />
+    <hr style="height: 1px;" />
+    <span style="font-size: 18px; font-weight: bold;">Getting Started</span>
+  </p>
+  <p>
+    If you're totally new to Litecoin mining, Easy Mining will probably be your new best friend.
+    No need to spend a lot of time tweaking command line parameters and messing with batch files -
+    just provide some information, click a button, and Easy Mining will configure and launch the
+    Litecoin mining software that's appropriate for your computer's hardware.
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    There are a few things you'll need to do in order to use Easy Mining, and these steps are
+    basically the requirements for both basic and advanced mining, and using Litecoin generally.
+    Be sure to perform these in order to get the most out of Easy Mining.
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <span style="font-size: 36px; font-weight: bold; float: left; margin: 8px;">ONE</span>
+    <span style="font-size: 18px; font-weight: bold;">Download & Install the Litecoin Client</span><br />
+    <hr style="height: 1px;" />
+  </p>
+  <p>
+    The first thing you need is a copy of the official Litecoin client. This is a small, free,
+    open-source application that acts as both a node on Litecoin's peer-to-peer tranaction
+    network and provides a "wallet," an encrypted file that "contains" your Litecoins.
+  </p>
+  <p>
+    <a href="http://litecoin.org/" rel="external">You can download the official Litecoin 
+    client from the official Litecoin information website.</a>
+    For your computer's safety, be sure to download <span style="font-style: italic;">only</span>
+    the official client, and <span style="font-style: italic;">only</span> from the official
+    website. If you're more familiar with Litecoin, feel free to investigate some of the 
+    unofficial software clients, but if you're new to Litecoin, please stick with the official.
+  </p>
+  <p>
+    Once you have a copy of the official Litecoin client, run it. It will connect to a few
+    "root" Litecoin network nodes, grab a list of other nodes connected to the network, and then
+    connect to them. Once that happens, the client will then download a copy of the "blockchain,"
+    which is the complete history of all Litecoin transactions. (Please note that the blockchain
+    is several gigabytes in size, so plan accordingly in terms of disk space and download time.)
+    When you have a complete copy of the blockchain, your client becomes a full participant on 
+    the Litecoin network, and your computer will then help check, verify, validate, and store 
+    transactions.
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    Now that you have the client, all you have to do to create a wallet is, well, nothing - 
+    a wallet is created automatically by the client. You will, however, need to create a 
+    wallet <span style="font-style: italic;">address</span>. To do this, run the official 
+    Litecoin client, click the "Receive Coins" button, then click "New Address." You'll
+    be presented with the option to give the new address some sort of name. You can create
+    new addresses whenever you want.
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <span style="font-size: 36px; font-weight: bold; float: left; margin: 8px;">TWO</span>
+    <span style="font-size: 18px; font-weight: bold;">Hook Up With A Mining Pool</span><br />
+    <hr style="height: 1px;" />
+  </p>
+  <p>
+    The next thing you're going to need is an account with a Litecoin mining pool. "Pooled mining"
+    is a process whereby the effort in producing Litecoins is shared among multiple miners. Pooling
+    allows for miners that don't generate a tremendous amount of effort to still get results from
+    that shared effort.
+  </p>
+  <p>
+    To join a pool, check out the 
+    <a href="https://github.com/litecoin-project/litecoin/wiki/Comparison-of-mining-pools"
+      rel="external">list of Litecoin mining pools</a> over on
+    <a href="https://github.com/litecoin-project/litecoin" rel="external">Litecoin's source code 
+    repository on GitHub</a>. There are several to choose from, and the mining pool list includes
+    information on how pools reward participants, how many kilohashes per second are being pumped
+    through the pool, fees each pool charges miners in order to pay for its own operation, and so on.
+  </p>
+  <p>
+    Joining a pool is basically like joining any typical website - create an account by selecting a
+    unique user ID and a strong password (you <span style="font-style: italic;">are</span> using
+    strong passwords, right?), and in some cases, click a link in a verification email.
+  </p>
+  <p>
+    Once you have an account for the pool you'd like to work with, you may need to create additional 
+    username and password combinations for "workers," the individual mining programs you intend to 
+    use. Each worker in such a setup will have its own unique username and password and any mining
+    done by a miner using those credentials is credited to your main account. Most miners have two
+    workers for every computer - one for the miner software that uses the processor, and the other 
+    for the miner software that uses the video card. Easy Mining assumes you'll be using both
+    processor and video card for mining, so you'll want to set up two workers.
+  </p>
+  <p>
+    Be sure to make a note of the URL and port number the pool uses for communicating. Your workers
+    will need to know where to get their work and send back results. If you chose a pool that supports 
+    something called "stratum mining," make sure you get the URL and port for the stratum server as
+    well - stratum mining uses a slightly different communication protocol that makes it somewhat 
+    better than the original method used by Litecoin, so if it's an option it's not a bad idea to
+    use stratum mining.
+  </p>
+  <p style="font-style: italic;">
+    You can do this while the Litecoin client is downloading the blockchain, by the way.
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    One last thing... Don't forget to tell the mining pool what your wallet address is, so that the
+    pool knows where to send the coins you mine!
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <span style="font-size: 36px; font-weight: bold; float: left; margin: 8px;">THREE</span>
+    <span style="font-size: 18px; font-weight: bold;">Cool Your Computer</span><br />
+    <hr style="height: 1px;" />
+  </p>
+  <p>
+    Mining generates a lot of waste heat, and that heat can cause harm to the computer. Before
+    you begin mining, it's always a good idea to make sure your computer can operate without
+    cooking itself. A few suggestions on how to keep your computer cool would be:
+  </p>
+  <ul>
+    <li>
+      If any of your computer's case fans don't work, replace them. If any are unplugged, connect
+      them. You'll want to move hot air out of the computer's case as quickly and effectively as
+      possible.
+    </li>
+  </ul>
+  <ul>
+    <li>
+      If your computer lives in a cabinet or some other enclosed space, take it out and set it
+      up where air can circulate all around it. Again, heat removal is crucial.
+    </li>
+  </ul>
+  <ul>
+    <li>
+      If your motherboard suppports adjusting the processor's cooling fan speed, set it to run
+      at full speed. It'll be noisier, but the cooler the processor runs the better it works.
+    </li>
+  </ul>
+  <ul>
+    <li>
+      Most reasonably powerful video cards include automatically-adjusting cooling fans that
+      wind up to a faster speed when the card heats up, and slow back down for quieter operation
+      when the card doesn't have a load on it. The auto-adjust cycles are generally very bad
+      for mining as they won't increase the fan speed fast enough to compensate for the severe
+      load that comes from mining. So, we <span style="font-weight: bold;">strongly</span>
+      suggest that you download a utility that allows you to manually set your video card's fan
+      speed to maximum. Again, this means more noise but it also means less heat.<br />
+      <br />
+      For AMD Radeon video cards, the Catalyst drivers include fan controls. You'll have to enable
+      overclocking to gain access to manual fan speed settings. For details on how to do this,
+      <a href="http://www.ehow.co.uk/how_8155154_change-ati-gpu-fan-speed.html" 
+        rel="external">check these instructions</a>.<br />
+      <br />
+      For Nvidia GeForce video cards, there are a few really good utilities that enable manual 
+      fan speed control. Arguably the most popular is 
+      <a href="http://event.msi.com/vga/afterburner/download.htm" rel="external">MSI's Afterburner</a>, 
+      which works on most of the current GeForce line.
+    </li>
+  </ul>
+  <ul>
+    <li>
+      Where possible, keep the room cool and/or vent the heat from the computer to the outside.
+    </li>
+  </ul>
+  <p>&nbsp;</p>
+  <p>
+    <span style="font-size: 36px; font-weight: bold; float: left; margin: 8px;">FOUR</span>
+    <span style="font-size: 18px; font-weight: bold;">Update Your Drivers</span><br />
+    <hr style="height: 1px;" />
+  </p>
+  <p>
+    If you intend to do any sort of video card mining, make sure your video card drivers are 
+    up to date. Be sure to grab the latest full-version driver package for your video card,
+    but <span style="font-style: italic;">avoid beta drivers</span>, as Litecoin mining is 
+    a brutally tough task and buggy beta drivers are usually inadequate for the task.
+  </p>
+  <p>
+    Once your video card drivers are up to date, you'll also need the software development
+    kit (SDK) for either OpenCL or CUDA applications. These will provide the additional drivers
+    that the video card mining application will need in order to send program code to the 
+    video card's graphics processor. For Radeon based video card, you'll need the
+    <a href="http://developer.amd.com/tools-and-sdks/heterogeneous-computing/amd-accelerated-parallel-processing-app-sdk/downloads/" 
+      rel="external">AMD Accelerated Parallel Processing (APP) SDK</a> along with the latest
+    AMD Catalyst driver package. Nvidia users will instead need to grab the
+    <a href="https://developer.nvidia.com/cuda-downloads" rel="external">Nvidia CUDA SDK</a>
+    along with the latest WHQL-ceritifed non-beta driver package.
+  </p>
+  <p>
+    By the way, once you've updated your drivers and installed the appropriate SDK,
+    <span style="font-style: italic;">reboot your computer</span>. Yeah yeah, we know you hate
+    having to reboot arbitrarily, but if you don't, core components won't load and your miner
+    will probably crash. Better to just take the few minutes to close everything and restart
+    than to fight against partially-loaded software.
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <span style="font-size: 36px; font-weight: bold; float: left; margin: 8px;">FIVE</span>
+    <span style="font-size: 18px; font-weight: bold;">Configure Easy Mining</span><br />
+    <hr style="height: 1px;" />
+  </p>
+  <p>
+    So you have the Litecoin client, the blockchain, the pool account, and at the username and 
+    password for least one worker, preferably two. Now it's time to set up Easy Mining. But
+    don't worry, this may well be the easiest part of the whole process!
+  </p>
+  <p>
+    This is the Easy Mining configuration window. We'll discuss what does what in a moment...
+  </p>
+  <p style="text-align: center;">
+    <img src="images/em_configuration.png" 
+      style="height: 464px; width: 577px; border: none;" />
+  </p>
+  <p>
+    <span style="font-weight: bold;">"Stratum Mining Proxy"</span><br />
+    If your pool supports stratum mining, enter the pool's stratum-mining server's IP address,
+    URL, or hostname in the left box and the port (usually 3333) in the right box. Check the 
+    "Use Stratum Mining Proxy" option - this setting will cause Easy Mining to load a special
+    tool called a "stratum proxy" that acts as a bridge, and will set the processor miner to 
+    use the stratum proxy. Depending on which brand of video card you have, it may also set the
+    video card miner to use the proxy as well.
+  </p>
+  <p>
+    <span style="font-weight: bold;">"Processor Mining"</span><br />
+    In addition to the mining server's IP address, URL, or hostname, note that there are also
+    boxes for a username and a password - these are for the worker you'd like to use for mining
+    with your processor. If you do not wish to use your processor to mine, leave any or all of 
+    the boxes in this section blank.
+  </p>
+  <p>
+    Please note that if you enable the "Use Stratum Mining Proxy" option, you won't be able to 
+    change the host and port, as Easy Mining will automatically set these to "localhost" and "8332"
+    so that the processor mining software will connect to the stratum proxy.
+  </p>
+  <p>
+    <span style="font-weight: bold;">"Video Card Mining"</span><br />
+    These settings are for the worker you'd like to use for mining with your video card, and the
+    basic idea is the same as for processor mining. Be sure to not use the same username and 
+    password you used in the processor mining settings, as the mining pool server will get all
+    confused and upset and you may end up not generating any Litecoins. Again, if you do not wish 
+    to use your video card to mine, leave any or all of the boxes in this section blank.
+  </p>
+  <p>
+    Again, please note that if you enable the "Use Stratum Mining Proxy" option, you won't be able to
+    change the host and port. If you are using a Radeon based video card, the mining software will
+    automatically connect to the stratum server, and if your video card is Nvidia based, the
+    mining software will be set to connect through the stratum proxy.
+  </p>
+  <p>
+    The "Aggressive Mining" setting is an important option to mention. When enabled, "Aggressive
+    Mining" mode causes Easy Mining to configure the mining software to use the maximum amount
+    of computing power possible. This usually makes a computer otherwise unusable, as the processor
+    and video card will be devoting every bit of their effort to mining and not to things like
+    having an interactive desktop and a mouse pointer that moves smoothly. Aggressive mining also
+    causes visual errors, artifacting, and all sorts of other odd behavior. If you want to mine
+    on a computer but also want to be able to use it, leave this option disabled.
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <span style="font-size: 36px; font-weight: bold; float: left; margin: 8px;">SIX</span>
+    <span style="font-size: 18px; font-weight: bold;">Mine Away</span><br />
+    <hr style="height: 1px;" />
+  </p>
+  <p>
+    Once you reach this point, there's only one thing left: mining! Click the "Save Settings
+    & Start Mining" button and Easy Mining will do its thing. Here's what happens at that point:
+  </p>
+  <ul>
+    <li>
+      If the "Use Stratum Mining Proxy" option is checked, Easy Mining will launch a proxy
+      server for stratum mining, and wait ten seconds for it to connect.
+    </li>
+  </ul>
+  <ul>
+    <li>
+      Easy Mining will check to see if you've provided server and username/password information
+      for video card mining. If so, Easy Mining will launch one of two video card mining applications:
+      "cgminer.exe" for Radeon-based video cards, and "cudaminer.exde" for NVidia GeForce video cards.
+    </li>
+  </ul>
+  <ul>
+    <li>
+      Easy Mining will also check to see if you've provided a mining pool server and a username/password
+      pair for processor mining. If so, Easy Mining will launch a processor mining application called
+      "minerd.exe," in either 32-bit or 64-bit form depending on which version of Windows you're
+      using.
+    </li>
+  </ul>
+  <ul>
+    <li>
+      Easy Mining will display a running log of what the mining applications are reporting, and 
+      a copy of the live report is recorded as a file in the 
+      "(Windows Drive)\Users\Public\Documents\EasyMining\logs" directory.
+    </li>
+  </ul>
+  <p>
+    When you're done mining, you can simply close Easy Mining - the miner applications will
+    be closed automatically.
+  </p>
+  <p>&nbsp;</p>
+  <p>
+    <span style="font-size: 36px; font-weight: bold; float: left; margin: 8px;">SEVEN</span>
+    <span style="font-size: 18px; font-weight: bold;">Profit!</span><br />
+    <hr style="height: 1px;" />
+  </p>
+  <p>
+    Assuming everything went well up to this point, you should eventually start to see Litecoins 
+    from your mining pool. As a quick way to make sure all is in fact going well, log into your
+    mining pool account after Easy Mining has had 15-30 minutes to run mining applications, and 
+    you should see a non-zero kilohash-per-second reading. (If you don't, stop Easy Mining and 
+    check the most recent log file in the "(Windows Drive)\Users\Public\Documents\EasyMining\logs" 
+    directory - it should give you a clue as to why your miners aren't showing up on the pool.)
+  </p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p style="text-align: center; font-size: 9px;">
+    Page developed by ManWitDaPlan, as part of the Easy Mining documentation.
+  </p>
+</body>
+</html>
