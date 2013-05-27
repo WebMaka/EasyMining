@@ -1,6 +1,6 @@
 object MainForm: TMainForm
-  Left = 346
-  Top = 312
+  Left = 325
+  Top = 124
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Easy Mining, presented by Actium Gaming Community'

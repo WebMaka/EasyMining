@@ -72,6 +72,7 @@ type
     GPUMinerThread: TMonitorThread;
     UseCUDA: boolean;
     UseOpenCL: boolean;
+    Autostart: boolean;
     function Is64BitOS: Boolean;
     procedure GetWin32_VideoControllerInfo;
     procedure WhiteWash(src: TBitmap; ARect : TRect; WhiteWashValue : integer = 128);
@@ -98,11 +99,11 @@ begin
   if (UseStratumProxyOption.Checked) then
   begin
     CPUMinerHost.Text := 'localhost';
-    GPUMinerHost.Text := StratumProxyHost.Text;
+    GPUMinerHost.Text := trim(StratumProxyHost.Text);
     CPUMinerHost.Enabled := false;
     GPUMinerHost.Enabled := false;
     CPUMinerPort.Text := '8332';
-    GPUMinerPort.Text := StratumProxyPort.Text;
+    GPUMinerPort.Text := trim(StratumProxyPort.Text);
     CPUMinerPort.Enabled := false;
     GPUMinerPort.Enabled := false;
     if (UseCUDA) then
@@ -126,6 +127,8 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 var
   IniSettings: TMemIniFile;
+  Index: integer;
+  UseStratum: boolean;
 
 begin
   // Make sure the "config" panel is shown first.
@@ -180,24 +183,134 @@ begin
   GPUMinerThread.DefaultIcon := 3;
 
 
-  // Attempt to detect the first video card on the system.
+  // Preset a few flags.
   UseCUDA := false;
   UseOpenCL := false;
-  try
-    CoInitialize(nil);
-    try
-      GetWin32_VideoControllerInfo;
-    finally
-      CoUninitialize;
+  Autostart := false;
+  UseStratum := false;
+
+
+  // Check for startup switches.
+  if (ParamCount > 0) then
+  begin
+    AddLogLineEvent(Self, 'Detected the following command-line switches/parameters:', 4);
+    AddLogLineEvent(Self, CmdLine, 4);
+
+    for Index := 1 to ParamCount do
+    begin
+      // -autostart
+      if (ParamStr(Index) = '-autostart') then
+        Autostart := true;
+
+
+      // -forcecuda
+      if (ParamStr(Index) = '-forcecuda') then
+        UseCUDA := true;
+
+      // -forceopencl
+      if (ParamStr(Index) = '-forceopencl') then
+        UseOpenCL := true;
+
+
+      // -chost
+      if (ParamStr(Index) = '-host') then
+        if (Index + 1 < ParamCount) then
+          CPUMinerHost.Text := trim(ParamStr(Index + 1));
+
+      // -cport
+      if (ParamStr(Index) = '-port') then
+        if (Index + 1 < ParamCount) then
+          CPUMinerPort.Text := trim(ParamStr(Index + 1));
+
+      // -cuser
+      if (ParamStr(Index) = '-user') then
+        if (Index + 1 < ParamCount) then
+          CPUMinerUsername.Text := trim(ParamStr(Index + 1));
+
+      // -cpass
+      if (ParamStr(Index) = '-pass') then
+        if (Index + 1 < ParamCount) then
+          CPUMinerPassword.Text := trim(ParamStr(Index + 1));
+
+
+      // -ghost
+      if (ParamStr(Index) = '-host') then
+        if (Index + 1 < ParamCount) then
+          GPUMinerHost.Text := trim(ParamStr(Index + 1));
+
+      // -gport
+      if (ParamStr(Index) = '-port') then
+        if (Index + 1 < ParamCount) then
+          GPUMinerPort.Text := trim(ParamStr(Index + 1));
+
+      // -guser
+      if (ParamStr(Index) = '-user') then
+        if (Index + 1 < ParamCount) then
+          GPUMinerUsername.Text := trim(ParamStr(Index + 1));
+
+      // -gpass
+      if (ParamStr(Index) = '-pass') then
+        if (Index + 1 < ParamCount) then
+          GPUMinerPassword.Text := trim(ParamStr(Index + 1));
+
+      // -aggressive
+      if (ParamStr(Index) = '-aggressive') then
+        AggressiveMode.Checked := true;
+
+
+      // -usestratum
+      if (ParamStr(Index) = '-usestratum') then
+        UseStratum := true;
+
+      // -shost
+      if (ParamStr(Index) = '-host') then
+        if (Index + 1 < ParamCount) then
+          StratumProxyHost.Text := trim(ParamStr(Index + 1));
+
+      // -sport
+      if (ParamStr(Index) = '-port') then
+        if (Index + 1 < ParamCount) then
+          StratumProxyPort.Text := trim(ParamStr(Index + 1));
+
+      //
     end;
-  except
-    on E:EOleException do
-      MessageDlg(Format('EOleException %s %x', [E.Message,E.ErrorCode]), mtError, [mbOK], 0);
-    on E:Exception do
-      MessageDlg(E.Classname + ': ' + E.Message, mtError, [mbOK], 0);
   end;
 
-  StartupCheckTimer.Enabled := true;
+  // If the stratum switch was present, handle it -after- processing everything else.
+  if (UseStratum) then
+  begin
+    UseStratumProxyOption.Checked := true;
+    UseStratumProxyOptionClick(Self);
+  end;
+
+
+  // Attempt to detect the first video card on the system. Note that we skip this
+  // part if either of the force switches (-forcecuda or -forceopencl) are present.
+  if ((not UseCuda) and (not UseOpenCL)) then
+  begin
+    try
+      CoInitialize(nil);
+      try
+        GetWin32_VideoControllerInfo;
+      finally
+        CoUninitialize;
+      end;
+    except
+      on E:EOleException do
+        MessageDlg(Format('EOleException %s %x', [E.Message,E.ErrorCode]), mtError, [mbOK], 0);
+      on E:Exception do
+        MessageDlg(E.Classname + ': ' + E.Message, mtError, [mbOK], 0);
+    end;
+  end;
+
+  // If no detectable video card exists, show a warning to that effect.
+  if ((not UseCuda) and (not UseOpenCL)) then
+    StartupCheckTimer.Enabled := true;
+
+
+  // Finally, autostart if the switch was present.
+  if (Autostart) then
+    StartButton.Click;
 end;
 
 procedure TMainForm.StartButtonClick(Sender: TObject);
@@ -214,28 +327,34 @@ begin
   LogPanel.BringToFront;
   ConfigPanel.Visible := false;
 
-  // Create an INI file object.
-  IniSettings := TMemIniFile.Create(ExtractFilePath(Application.ExeName) + 'easy_mining.ini');
 
-  // Save settings to INI file.
-  IniSettings.WriteString('Stratum', 'stratumhost', StratumProxyHost.Text);
-  IniSettings.WriteString('Stratum', 'stratumport', StratumProxyPort.Text);
-  IniSettings.WriteBool('Stratum', 'useproxy', UseStratumProxyOption.Checked);
-  IniSettings.WriteString('CPU', 'username', CPUMinerUsername.Text);
-  IniSettings.WriteString('CPU', 'password', CPUMinerPassword.Text);
-  IniSettings.WriteString('CPU', 'host', CPUMinerHost.Text);
-  IniSettings.WriteString('CPU', 'port', CPUMinerPort.Text);
-  IniSettings.WriteString('GPU', 'username', GPUMinerUsername.Text);
-  IniSettings.WriteString('GPU', 'password', GPUMinerPassword.Text);
-  IniSettings.WriteString('GPU', 'host', GPUMinerHost.Text);
-  IniSettings.WriteString('GPU', 'port', GPUMinerPort.Text);
+  // We don't save to INI in an autostart scenario. This allows for custom
+  // autostart scenarios via command-line.
+  if (not Autostart) then
+  begin
+    // Create an INI file object.
+    IniSettings := TMemIniFile.Create(ExtractFilePath(Application.ExeName) + 'easy_mining.ini');
 
-  // Write out INI file.
-  IniSettings.UpdateFile;
-  Application.ProcessMessages;
+    // Save settings to INI file.
+    IniSettings.WriteString('Stratum', 'stratumhost', trim(StratumProxyHost.Text));
+    IniSettings.WriteString('Stratum', 'stratumport', trim(StratumProxyPort.Text));
+    IniSettings.WriteBool('Stratum', 'useproxy', UseStratumProxyOption.Checked);
+    IniSettings.WriteString('CPU', 'username', trim(CPUMinerUsername.Text));
+    IniSettings.WriteString('CPU', 'password', trim(CPUMinerPassword.Text));
+    IniSettings.WriteString('CPU', 'host', trim(CPUMinerHost.Text));
+    IniSettings.WriteString('CPU', 'port', trim(CPUMinerPort.Text));
+    IniSettings.WriteString('GPU', 'username', trim(GPUMinerUsername.Text));
+    IniSettings.WriteString('GPU', 'password', trim(GPUMinerPassword.Text));
+    IniSettings.WriteString('GPU', 'host', trim(GPUMinerHost.Text));
+    IniSettings.WriteString('GPU', 'port', trim(GPUMinerPort.Text));
 
-  // Free the INI file object.
-  IniSettings.Free;
+    // Write out INI file.
+    IniSettings.UpdateFile;
+    Application.ProcessMessages;
+
+    // Free the INI file object.
+    IniSettings.Free;
+  end;
 
   // Show in the log that we're starting up a mining session.
   AddLogLineEvent(Self, 'Easy Mining is starting a mining session at ' + FormatDateTime('hh:mm AM/PM, d MMM yyyy', now), 0);
@@ -248,8 +367,8 @@ begin
 
     ProxyCommand := ExtractFilePath(Application.ExeName)
       + 'stratumproxy\mining_proxy.exe -pa scrypt '
-      + '-o ' + StratumProxyHost.Text + ' -p '
-      + StratumProxyPort.Text;
+      + '-o ' + trim(StratumProxyHost.Text) + ' -p '
+      + trim(StratumProxyPort.Text);
 
     AddLogLineEvent(Self, ProxyCommand, 0);
 
@@ -293,15 +412,15 @@ begin
 
       if (AggressiveMode.Checked) then
         GPUMinerCommand := ExtractFilePath(Application.ExeName)
-          + 'cgminer\cgminer.exe --scrypt -u ' + GPUMinerUsername.Text
-          + ' -p ' + GPUMinerPassword.Text
-          + ' -o ' + GPUMinerHost.Text + ':' + GPUMinerPort.Text
+          + 'cgminer\cgminer.exe --scrypt -u ' + trim(GPUMinerUsername.Text)
+          + ' -p ' + trim(GPUMinerPassword.Text)
+          + ' -o ' + trim(GPUMinerHost.Text) + ':' + trim(GPUMinerPort.Text)
           + ' --gpu-fan 25-100 --auto-fan --temp-target 60 -I 18 -T'
       else
         GPUMinerCommand := ExtractFilePath(Application.ExeName)
-          + 'cgminer\cgminer.exe --scrypt -u ' + GPUMinerUsername.Text
-          + ' -p ' + GPUMinerPassword.Text
-          + ' -o ' + GPUMinerHost.Text + ':' + GPUMinerPort.Text
+          + 'cgminer\cgminer.exe --scrypt -u ' + trim(GPUMinerUsername.Text)
+          + ' -p ' + trim(GPUMinerPassword.Text)
+          + ' -o ' + trim(GPUMinerHost.Text) + ':' + trim(GPUMinerPort.Text)
           + ' --gpu-fan 25-100 --auto-fan --temp-target 60 -I 12 -T';
 
       AddLogLineEvent(Self, GPUMinerCommand, 4);
@@ -337,15 +456,15 @@ begin
       if (AggressiveMode.Checked) then
         GPUMinerCommand := ExtractFilePath(Application.ExeName) + 'cudaminer\cudaminer.exe'
           + ' --algo scrypt -i 0 --url '
-          + GPUMinerHost.Text + ':' + GPUMinerPort.Text
-          + ' --userpass ' + GPUMinerUsername.Text + ':'
-          + GPUMinerPassword.Text
+          + trim(GPUMinerHost.Text) + ':' + trim(GPUMinerPort.Text)
+          + ' --userpass ' + trim(GPUMinerUsername.Text) + ':'
+          + trim(GPUMinerPassword.Text)
       else
         GPUMinerCommand := ExtractFilePath(Application.ExeName) + 'cudaminer\cudaminer.exe'
           + ' --algo scrypt -i 1 --url '
-          + GPUMinerHost.Text + ':' + GPUMinerPort.Text
-          + ' --userpass ' + GPUMinerUsername.Text + ':'
-          + GPUMinerPassword.Text;
+          + trim(GPUMinerHost.Text) + ':' + trim(GPUMinerPort.Text)
+          + ' --userpass ' + trim(GPUMinerUsername.Text) + ':'
+          + trim(GPUMinerPassword.Text);
 
 
       AddLogLineEvent(Self, GPUMinerCommand, 4);
@@ -381,9 +500,9 @@ begin
     else
       CPUMinerCommand := CPUMinerCommand + 'cpuminer-x32\minerd.exe';
     CPUMinerCommand := CPUMinerCommand + ' --algo scrypt --url '
-      + CPUMinerHost.Text + ':' + CPUMinerPort.Text
-      + ' --userpass ' + CPUMinerUsername.Text + ':'
-      + CPUMinerPassword.Text;
+      + trim(CPUMinerHost.Text) + ':' + trim(CPUMinerPort.Text)
+      + ' --userpass ' + trim(CPUMinerUsername.Text) + ':'
+      + trim(CPUMinerPassword.Text);
 
     AddLogLineEvent(Self, CPUMinerCommand, 4);
     AddLogLineEvent(Self, 'NOTE: minerd likes to report in bursts, so expect no reports for a while.', 5);
@@ -434,9 +553,6 @@ begin
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-var
-  index: integer;
-
 begin
   if (LogPanel.Visible) then
   begin
@@ -452,9 +568,6 @@ begin
 end;
 
 procedure TMainForm.LogBackButtonClick(Sender: TObject);
-var
-  index: integer;
-  
 begin
   LogBackButton.Enabled := false;
 

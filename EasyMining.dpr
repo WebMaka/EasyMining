@@ -27,7 +27,6 @@ var
 begin
   Application.Initialize;
   Application.Title := 'Easy Mining';
-  Application.CreateForm(TMainForm, MainForm);
 
   try
     // Attempt to derive the path to COMMON DOCUMENTS, and check for a log directory.
@@ -45,6 +44,7 @@ begin
     WriteLn(LogFile, '[EASY MINING] Logging activities to file "' + LogFileName + '"');
 
     try
+      Application.CreateForm(TMainForm, MainForm);
       Application.Run;
 
       repeat
